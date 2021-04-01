@@ -13,6 +13,7 @@
         <module>bitty-broker</module>
         <module>bitty-root</module>
         <module>bitty-common</module>
+        <module>bitty-standalone</module>
     </modules>
 
     <properties>
