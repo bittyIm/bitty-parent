@@ -1,6 +1,7 @@
 package com.bitty.root;
 
 import com.bitty.common.handler.EchoHandler;
+import com.bitty.dashboard.Dashboard;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -21,9 +22,12 @@ import java.io.IOException;
 
 @Slf4j
 public class Root {
+
     public static void main(String[] args) throws InterruptedException, IOException {
         Container container = new Container();
         container.initProperty();
+        Dashboard dashboard=new Dashboard();
+        dashboard.start();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {

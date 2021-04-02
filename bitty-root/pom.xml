@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.bitty</groupId>
-            <artifactId>bitty-common</artifactId>
+            <artifactId>bitty-dashboard</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
