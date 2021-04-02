@@ -1,0 +1,20 @@
+{
+  "name": "bitty-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vue serve BittyVue.vue",
+    "test": "vue-cli-service test:unit",
+    "build": "vue build",
+    "build-lib":"vue build --target lib BittyVue.vue",
+    "build-wc": "vue build BittyVue.vue --target wc"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0"
+  },
+  "author": "jingdor",
+  "license": "ISC"
+}
