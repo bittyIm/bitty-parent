@@ -61,43 +61,43 @@ public class Container<T> extends BittyContainer {
         client=new Client(getProperties());
     }
 
-    protected void initLocalNetwork() {
-        if(  Boolean.parseBoolean((getProperties().getProperty("app.enableLocalNetwork")))){
-            log.info("初始化本地网路");
-            EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-            EventLoopGroup workerGroup = new NioEventLoopGroup();
-            try {
-                ServerBootstrap b = new ServerBootstrap();
-
-                b.group(bossGroup, workerGroup)
-                        .channel(NioServerSocketChannel.class)
-                        .handler(new LoggingHandler(LogLevel.INFO))
-                        .childHandler(new ChannelInitializer<SocketChannel>() {
-                            @Override
-                            protected void initChannel(SocketChannel ch) throws Exception {
-                                ChannelPipeline p = ch.pipeline();
-                                p.addLast(new DelimiterBasedFrameDecoder(2048, true, Unpooled.copiedBuffer("\n".getBytes())));
-                                p.addLast(new StringDecoder());
-                                p.addLast(new StringEncoder());
-                                p.addLast(new LoggingHandler(LogLevel.INFO));
-                                p.addLast(new EchoHandler());
-                            }
-                        });
-                ChannelFuture f = b.bind(Integer.parseInt(getProperties().getProperty("app.port")));
-                f.channel().closeFuture().sync();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                bossGroup.shutdownGracefully();
-                workerGroup.shutdownGracefully();
-            }
-        }
-    }
+//    protected void initLocalNetwork() {
+//        if(  Boolean.parseBoolean((getProperties().getProperty("app.enableLocalNetwork")))){
+//            log.info("初始化本地网路");
+//            EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+//            EventLoopGroup workerGroup = new NioEventLoopGroup();
+//            try {
+//                ServerBootstrap b = new ServerBootstrap();
+//
+//                b.group(bossGroup, workerGroup)
+//                        .channel(NioServerSocketChannel.class)
+//                        .handler(new LoggingHandler(LogLevel.INFO))
+//                        .childHandler(new ChannelInitializer<SocketChannel>() {
+//                            @Override
+//                            protected void initChannel(SocketChannel ch) throws Exception {
+//                                ChannelPipeline p = ch.pipeline();
+//                                p.addLast(new DelimiterBasedFrameDecoder(2048, true, Unpooled.copiedBuffer("\n".getBytes())));
+//                                p.addLast(new StringDecoder());
+//                                p.addLast(new StringEncoder());
+//                                p.addLast(new LoggingHandler(LogLevel.INFO));
+//                                p.addLast(new EchoHandler());
+//                            }
+//                        });
+//                ChannelFuture f = b.bind(Integer.parseInt(getProperties().getProperty("app.port")));
+//                f.channel().closeFuture().sync();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } finally {
+//                bossGroup.shutdownGracefully();
+//                workerGroup.shutdownGracefully();
+//            }
+//        }
+//    }
 
     public void init() throws IOException {
         super.initProperty();
         initLocalClient();
-        initLocalNetwork();
+//        initLocalNetwork();
         syncAccessPointList();
     }
 }

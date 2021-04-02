@@ -44,7 +44,7 @@ public class Root {
                             p.addLast(new EchoHandler());
                         }
                     });
-            log.info("开始监听 {} {} ",container.getProperties().getProperty("app.broker.server"),container.getProperties().getProperty("app.broker.port") );
+            log.info("开始监听 {} {} ",container.getProperties().getProperty("app.root.server"),container.getProperties().getProperty("app.root.port") );
 
             ChannelFuture f = b.bind((String) (container.getProperties().getProperty("app.root.server")),
                     Integer.parseInt(container.getProperties().getProperty("app.root.port")));

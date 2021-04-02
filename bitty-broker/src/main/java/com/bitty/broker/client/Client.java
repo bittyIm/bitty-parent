@@ -1,4 +1,4 @@
-package com.bitty.device.local;
+package com.bitty.broker.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -19,7 +19,7 @@ import java.util.Properties;
 public class Client {
     Channel ch = null;
 
-    public  Client(Properties properties) {
+    public Client(Properties properties) {
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
         b.group(group)
@@ -36,14 +36,14 @@ public class Client {
                         pipeline.addLast(new SimpleChannelInboundHandler<String>() {
                             @Override
                             protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) {
-                                log.info("处理回调消息"+msg);
+                                log.info("处理回调消息" + msg);
                             }
                         });
                     }
                 });
         try {
-            ch = b.connect((String) properties.get("app.broker.server"), Integer.parseInt((String) properties.get("app.broker.port"))).sync().channel();
-            ChannelFuture lastWriteFuture =ch.writeAndFlush("hello broker \n").sync();
+            ch = b.connect((String) properties.get("app.root.server"), Integer.parseInt((String) properties.get("app.root.port"))).sync().channel();
+            ChannelFuture lastWriteFuture = ch.writeAndFlush("hello root\n").sync();
             lastWriteFuture.sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

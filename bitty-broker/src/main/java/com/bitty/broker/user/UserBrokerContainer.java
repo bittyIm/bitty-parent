@@ -1,11 +1,12 @@
 package com.bitty.broker.user;
 
-import com.bitty.broker.Container;
+
+import com.bitty.common.BittyContainer;
 import com.bitty.common.BittyUser;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class UserContainer extends Container {
+public class UserBrokerContainer extends BittyContainer {
 
     ConcurrentHashMap<Integer, BittyUser> userCache = new ConcurrentHashMap<>();
 

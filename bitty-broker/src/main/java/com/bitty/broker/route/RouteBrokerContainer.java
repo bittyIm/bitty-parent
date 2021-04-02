@@ -1,11 +1,12 @@
 package com.bitty.broker.route;
 
-import com.bitty.broker.Container;
+
+import com.bitty.common.BittyContainer;
 import com.bitty.common.BittyRoute;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RouteContainer extends Container {
+public class RouteBrokerContainer extends BittyContainer {
 
     ConcurrentHashMap<Integer, BittyRoute> routeCache = new ConcurrentHashMap<>();
 

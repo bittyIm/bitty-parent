@@ -1,6 +1,5 @@
 package com.bitty.broker;
 
-import com.bitty.common.handler.EchoHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -21,10 +20,10 @@ import java.io.IOException;
 
 @Slf4j
 public class Broker {
-    public static Container container = new Container();
+    public static BrokerContainer brokerContainer = new BrokerContainer();
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        container.initProperty();
+        brokerContainer.initProperty();
 
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -46,10 +45,15 @@ public class Broker {
                         }
                     });
 
-            log.info("开始监听 {} {} ", container.getProperties().getProperty("app.broker.server"), container.getProperties().getProperty("app.broker.port"));
+            log.info("开始监听 {} {} ", brokerContainer.getProperties().getProperty("app.broker.server"), brokerContainer.getProperties().getProperty("app.broker.port"));
 
-            ChannelFuture f = b.bind((String) (container.getProperties().getProperty("app.broker.server")),
-                    Integer.parseInt(container.getProperties().getProperty("app.broker.port")));
+            ChannelFuture f = b.bind((String) (brokerContainer.getProperties().getProperty("app.broker.server")),
+                    Integer.parseInt(brokerContainer.getProperties().getProperty("app.broker.port")));
+
+            f.addListener(g->{
+
+                brokerContainer.signin();
+            });
             f.channel().closeFuture().sync();
             System.in.read();
         } catch (Exception e) {
