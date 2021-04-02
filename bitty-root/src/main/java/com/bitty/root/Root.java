@@ -22,9 +22,8 @@ import java.io.IOException;
 @Slf4j
 public class Root {
     public static void main(String[] args) throws InterruptedException, IOException {
-        Container container=new Container();
+        Container container = new Container();
         container.initProperty();
-
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -41,11 +40,10 @@ public class Root {
                             p.addLast(new StringDecoder());
                             p.addLast(new StringEncoder());
                             p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new EchoHandler());
+                            p.addLast(new BittyRootHandler());
                         }
                     });
-            log.info("开始监听 {} {} ",container.getProperties().getProperty("app.root.server"),container.getProperties().getProperty("app.root.port") );
-
+            log.info("开始监听 {} {} ", container.getProperties().getProperty("app.root.server"), container.getProperties().getProperty("app.root.port"));
             ChannelFuture f = b.bind((String) (container.getProperties().getProperty("app.root.server")),
                     Integer.parseInt(container.getProperties().getProperty("app.root.port")));
             f.channel().closeFuture().sync();

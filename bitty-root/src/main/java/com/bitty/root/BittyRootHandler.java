@@ -1,4 +1,4 @@
-package com.bitty.broker;
+package com.bitty.root;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
  * 应用层handler处理
  */
 @Slf4j
-public class BittyHandler extends SimpleChannelInboundHandler<String> {
+public class BittyRootHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) throws Exception {
         log.info("判断本地用户");
@@ -20,6 +20,6 @@ public class BittyHandler extends SimpleChannelInboundHandler<String> {
         log.info("查找对端用户所在的broker");
 
         log.info("执行路由");
-        channelHandlerContext.writeAndFlush("hello device");
+        channelHandlerContext.writeAndFlush("hello broker");
     }
 }

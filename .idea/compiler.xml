@@ -9,6 +9,7 @@
         <module name="bitty-device" />
         <module name="bitty-broker" />
         <module name="bitty-root" />
+        <module name="bitty-dashboard" />
         <module name="bitty-common" />
         <module name="bitty-standalone" />
       </profile>

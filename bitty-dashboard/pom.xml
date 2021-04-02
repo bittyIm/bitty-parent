@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bitty-common</artifactId>
+    <groupId>com.bitty</groupId>
+    <artifactId>bitty-dashboard</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
