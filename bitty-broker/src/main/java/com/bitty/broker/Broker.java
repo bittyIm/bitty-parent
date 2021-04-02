@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-
 @Slf4j
 public class Broker {
+    public static Container container = new Container();
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        Container container=new Container();
         container.initProperty();
+
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -42,19 +42,19 @@ public class Broker {
                             p.addLast(new StringDecoder());
                             p.addLast(new StringEncoder());
                             p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new EchoHandler());
+                            p.addLast(new BittyHandler());
                         }
                     });
 
-            log.info("开始监听 {} {} ",container.getProperties().getProperty("app.broker.server"),container.getProperties().getProperty("app.broker.port") );
+            log.info("开始监听 {} {} ", container.getProperties().getProperty("app.broker.server"), container.getProperties().getProperty("app.broker.port"));
 
             ChannelFuture f = b.bind((String) (container.getProperties().getProperty("app.broker.server")),
-                                Integer.parseInt(container.getProperties().getProperty("app.broker.port")));
+                    Integer.parseInt(container.getProperties().getProperty("app.broker.port")));
             f.channel().closeFuture().sync();
             System.in.read();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

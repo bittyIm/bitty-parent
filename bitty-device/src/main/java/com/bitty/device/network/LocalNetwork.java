@@ -1,6 +1,6 @@
 package com.bitty.device.network;
 
-import com.bitty.device.Network;
+import com.bitty.common.Network;
 
 /**
  * turn network

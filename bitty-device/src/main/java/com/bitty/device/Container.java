@@ -1,6 +1,7 @@
 package com.bitty.device;
 
 import com.bitty.common.BittyContainer;
+import com.bitty.common.Network;
 import com.bitty.common.handler.EchoHandler;
 import com.bitty.device.local.Client;
 import io.netty.bootstrap.ServerBootstrap;

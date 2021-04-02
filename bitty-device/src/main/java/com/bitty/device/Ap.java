@@ -1,5 +1,7 @@
 package com.bitty.device;
 
+import com.bitty.common.Network;
+
 public interface Ap {
 
     void setOffset(Long mid);

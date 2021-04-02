@@ -1,4 +1,4 @@
-package com.bitty.device;
+package com.bitty.common;
 
 public interface Network {
     void Send();
