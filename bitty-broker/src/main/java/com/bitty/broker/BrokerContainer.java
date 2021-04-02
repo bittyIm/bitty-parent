@@ -5,6 +5,7 @@ import com.bitty.broker.msg.BrokerMsgContainer;
 import com.bitty.broker.route.RouteBrokerContainer;
 import com.bitty.broker.user.UserBrokerContainer;
 import com.bitty.common.BittyContainer;
+import io.netty.util.HashedWheelTimer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class BrokerContainer extends BittyContainer {
 
-    Client client=null;
+    /**
+     * 异常连接处理器
+     */
+    HashedWheelTimer timer = new HashedWheelTimer();
+
+
+    Client client = null;
     /**
      * 路由容器
      */
@@ -30,6 +37,6 @@ public class BrokerContainer extends BittyContainer {
         log.info("root server " + getProperties().get("app.root.server"));
         log.info("root port " + getProperties().get("app.root.port"));
         log.info("注册到root服务器");
-        client=new Client(getProperties());
+        client = new Client(getProperties());
     }
 }

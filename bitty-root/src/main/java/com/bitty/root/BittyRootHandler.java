@@ -2,6 +2,8 @@ package com.bitty.root;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.HashedWheelTimer;
+import io.netty.util.Timer;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -9,6 +11,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class BittyRootHandler extends SimpleChannelInboundHandler<String> {
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+        ctx.writeAndFlush("hello im bitty root\r\n");
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) throws Exception {
         log.info("判断本地用户");

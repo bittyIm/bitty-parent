@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.bitty.proto;
+
+option java_outer_classname = "Message";
+
+message MessageFrame {
+  //  消息id
+  int32 messageId = 1;
+  //  时间
+  int32 createAt = 2;
+  //目标节点
+  int32 targetNode = 3;
+  //目标id
+  int32 targetId = 4;
+  //源id
+  int32 sourceId = 5;
+  //源节点
+  int32 sourceNode = 6;
+  //命令码
+  bytes Cmd = 7;
+  //命令子类型
+  bytes Type = 8;
+  //消息内容
+  string payload = 9;
+}
