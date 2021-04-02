@@ -1,3 +1,5 @@
+[![Maven Package](https://github.com/bittyIm/bitty-parent/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/bittyIm/bitty-parent/actions/workflows/maven-publish.yml)
+----
 # Bitty
 
 又一个聊天服务器
