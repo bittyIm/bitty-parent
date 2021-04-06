@@ -2,6 +2,7 @@ package com.bitty;
 
 import android.os.Bundle;
 
+import com.bitty.device.Container;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Container container=new Container();
+        try {
+            container.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

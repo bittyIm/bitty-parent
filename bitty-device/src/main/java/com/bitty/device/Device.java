@@ -10,7 +10,5 @@ public class Device {
         log.info("启动容器");
         Container container=new Container();
         container.init();
-
-
     }
 }
