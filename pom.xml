@@ -16,6 +16,7 @@
         <module>bitty-standalone</module>
         <module>bitty-dashboard</module>
         <module>bitty-proto</module>
+        <module>bitty-codec</module>
     </modules>
 
     <properties>

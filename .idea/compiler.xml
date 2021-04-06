@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bitty-broker" />
+        <module name="bitty-codec" />
         <module name="bitty-device" />
         <module name="bitty-root" />
         <module name="bitty-dashboard" />

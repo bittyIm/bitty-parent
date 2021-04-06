@@ -15,7 +15,7 @@ class MessageTest {
         byte[] m = Message.MessageFrame.newBuilder()
                 .setCreateAt(2000)
                 .setMessageId(1000)
-                .setPayload("这个压缩的东西就很不好处理了呀 这是个什么鬼东西呀??????")
+                .setPayload("hello bitty")
                 .build()
                 .toByteArray();
 

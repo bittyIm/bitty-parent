@@ -1,5 +1,9 @@
 package com.bitty.broker.client;
 
+import com.bitty.codec.BittyDecoder;
+import com.bitty.codec.BittyEncoder;
+import com.bitty.common.BittyMsg;
+import com.bitty.proto.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -30,12 +34,11 @@ public class Client {
                     protected void initChannel(SocketChannel sc) throws Exception {
                         ChannelPipeline pipeline = sc.pipeline();
                         pipeline.addLast(new LoggingHandler(LogLevel.TRACE));
-                        pipeline.addLast(new StringDecoder());
-                        pipeline.addLast(new StringEncoder());
-                        pipeline.addLast(new DelimiterBasedFrameDecoder(2048, false, Unpooled.copiedBuffer("\n".getBytes())));
-                        pipeline.addLast(new SimpleChannelInboundHandler<String>() {
+                        pipeline.addLast(new BittyDecoder());
+                        pipeline.addLast(new BittyEncoder());
+                        pipeline.addLast(new SimpleChannelInboundHandler<Message.MessageFrame>() {
                             @Override
-                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) {
+                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, Message.MessageFrame msg) {
                                 log.info("处理回调消息" + msg);
                             }
                         });
@@ -43,7 +46,15 @@ public class Client {
                 });
         try {
             ch = b.connect((String) properties.get("app.root.server"), Integer.parseInt((String) properties.get("app.root.port"))).sync().channel();
-            ChannelFuture lastWriteFuture = ch.writeAndFlush("hello root\n").sync();
+
+            var msg= Message.MessageFrame.newBuilder()
+                    .setCreateAt(2000)
+                    .setMessageId(1000)
+                    .setPayload("hello root")
+                    .build()
+                    .toByteArray();
+
+            ChannelFuture lastWriteFuture = ch.writeAndFlush(msg).sync();
             lastWriteFuture.sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

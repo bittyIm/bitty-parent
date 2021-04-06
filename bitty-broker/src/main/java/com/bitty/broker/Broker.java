@@ -1,5 +1,7 @@
 package com.bitty.broker;
 
+import com.bitty.codec.BittyDecoder;
+import com.bitty.codec.BittyEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -36,12 +38,11 @@ public class Broker {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(new DelimiterBasedFrameDecoder(2048, true, Unpooled.copiedBuffer("\n".getBytes())));
-                            p.addLast(new StringDecoder());
-                            p.addLast(new StringEncoder());
-                            p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new BittyHandler());
+                            ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new BittyDecoder());
+                            pipeline.addLast(new BittyEncoder());
+                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                            pipeline.addLast(new BittyHandler());
                         }
                     });
 
