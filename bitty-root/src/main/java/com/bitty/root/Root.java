@@ -1,9 +1,8 @@
 package com.bitty.root;
 
-import com.bitty.common.handler.EchoHandler;
-import com.bitty.dashboard.Dashboard;
+import com.bitty.codec.BittyDecoder;
+import com.bitty.codec.BittyEncoder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -11,9 +10,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +22,6 @@ public class Root {
     public static void main(String[] args) throws InterruptedException, IOException {
         Container container = new Container();
         container.initProperty();
-        Dashboard dashboard=new Dashboard();
-        dashboard.start();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -40,9 +34,8 @@ public class Root {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
-                            p.addLast(new DelimiterBasedFrameDecoder(2048, true, Unpooled.copiedBuffer("\n".getBytes())));
-                            p.addLast(new StringDecoder());
-                            p.addLast(new StringEncoder());
+                            p.addLast(new BittyDecoder());
+                            p.addLast(new BittyEncoder());
                             p.addLast(new LoggingHandler(LogLevel.INFO));
                             p.addLast(new BittyRootHandler());
                         }

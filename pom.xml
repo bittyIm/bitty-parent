@@ -32,13 +32,6 @@
             <version>4.1.62.Final</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>1.36.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

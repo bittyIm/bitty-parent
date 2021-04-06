@@ -27,7 +27,6 @@ public class Broker {
 
         brokerContainer.initProperty();
 
-
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {

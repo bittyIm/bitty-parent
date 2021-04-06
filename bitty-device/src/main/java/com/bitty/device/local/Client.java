@@ -4,6 +4,7 @@ import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
 import com.bitty.proto.Message;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -49,7 +50,7 @@ public class Client {
                     .build()
                     .toByteArray();
 
-            ChannelFuture lastWriteFuture = ch.writeAndFlush(msg).sync();
+            ChannelFuture lastWriteFuture = ch.writeAndFlush(Unpooled.copiedBuffer(msg)).sync();
             lastWriteFuture.sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

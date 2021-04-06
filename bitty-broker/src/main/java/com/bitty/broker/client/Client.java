@@ -47,14 +47,14 @@ public class Client {
         try {
             ch = b.connect((String) properties.get("app.root.server"), Integer.parseInt((String) properties.get("app.root.port"))).sync().channel();
 
-            var msg= Message.MessageFrame.newBuilder()
+            var msg = Message.MessageFrame.newBuilder()
                     .setCreateAt(2000)
                     .setMessageId(1000)
                     .setPayload("hello root")
                     .build()
                     .toByteArray();
 
-            ChannelFuture lastWriteFuture = ch.writeAndFlush(msg).sync();
+            ChannelFuture lastWriteFuture = ch.writeAndFlush(Unpooled.copiedBuffer(msg)).sync();
             lastWriteFuture.sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
