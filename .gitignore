@@ -30,8 +30,7 @@ build/
 /log/
 ### VS Code ###
 .vscode/
-
+*/log/*
 /export/
 
-deviceLog/
-upload
+

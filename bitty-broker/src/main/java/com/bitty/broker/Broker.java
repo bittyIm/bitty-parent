@@ -1,6 +1,8 @@
 package com.bitty.broker;
 
-import com.bitty.common.handler.EchoHandler;
+import com.bitty.codec.BittyDecoder;
+import com.bitty.codec.BittyEncoder;
+import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -15,17 +17,18 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Broker {
+    public static BrokerContainer brokerContainer = new BrokerContainer();
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        Container container=new Container();
-        container.initProperty();
+        brokerContainer.initProperty();
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -37,24 +40,30 @@ public class Broker {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(new DelimiterBasedFrameDecoder(2048, true, Unpooled.copiedBuffer("\n".getBytes())));
-                            p.addLast(new StringDecoder());
-                            p.addLast(new StringEncoder());
-                            p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new EchoHandler());
+                            ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new IdleStateHandler(60,60,5, TimeUnit.SECONDS));
+                            pipeline.addLast(new BittyDecoder());
+                            pipeline.addLast(new BittyEncoder());
+                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                            pipeline.addLast(new BittyHeartBeatServerHandler());
+                            pipeline.addLast(new BittyHandler());
                         }
                     });
 
-            log.info("开始监听 {} {} ",container.getProperties().getProperty("app.broker.server"),container.getProperties().getProperty("app.broker.port") );
+            log.info("开始监听 {} {} ", brokerContainer.getProperties().getProperty("app.broker.server"), brokerContainer.getProperties().getProperty("app.broker.port"));
 
-            ChannelFuture f = b.bind((String) (container.getProperties().getProperty("app.broker.server")),
-                                Integer.parseInt(container.getProperties().getProperty("app.broker.port")));
+            ChannelFuture f = b.bind((String) (brokerContainer.getProperties().getProperty("app.broker.server")),
+                    Integer.parseInt(brokerContainer.getProperties().getProperty("app.broker.port")));
+
+            f.addListener(g->{
+
+                brokerContainer.signin();
+            });
             f.channel().closeFuture().sync();
             System.in.read();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

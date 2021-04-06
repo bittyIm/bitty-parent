@@ -30,15 +30,7 @@ public class EchoHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws InterruptedException, IOException {
-        System.out.println("收到消息 开始bitty端处理逻辑");
-        log.info("查找本地是否有对端消息 ");
-
-        log.info("root服务器查找对端消息 ");
-
-        log.info("转发消息到对端服务器   ");
-
-        log.info("更新消息状态");
-
+        System.out.println("收到消息 直接返回"+msg);
         ctx.writeAndFlush(msg);
     }
 
