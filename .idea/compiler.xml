@@ -11,6 +11,7 @@
         <module name="bitty-root" />
         <module name="bitty-common" />
         <module name="bitty-standalone" />
+        <module name="bitty-frame" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
