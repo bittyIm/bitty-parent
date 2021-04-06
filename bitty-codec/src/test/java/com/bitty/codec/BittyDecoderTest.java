@@ -13,6 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 class BittyDecoderTest {
@@ -48,6 +50,7 @@ class BittyDecoderTest {
                             @Override
                             protected void initChannel(SocketChannel ch) throws Exception {
                                 ChannelPipeline pipeline = ch.pipeline();
+                                pipeline.addLast(new IdleStateHandler(60,60,5, TimeUnit.SECONDS));
                                 pipeline.addLast(new BittyDecoder());
                                 pipeline.addLast(new BittyEncoder());
                                 pipeline.addLast(new LoggingHandler(LogLevel.INFO));

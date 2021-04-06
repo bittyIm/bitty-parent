@@ -2,6 +2,7 @@ package com.bitty.broker;
 
 import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
+import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -16,9 +17,11 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Broker {
@@ -38,9 +41,11 @@ public class Broker {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new IdleStateHandler(60,60,5, TimeUnit.SECONDS));
                             pipeline.addLast(new BittyDecoder());
                             pipeline.addLast(new BittyEncoder());
                             pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                            pipeline.addLast(new BittyHeartBeatServerHandler());
                             pipeline.addLast(new BittyHandler());
                         }
                     });
