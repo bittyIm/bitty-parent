@@ -2,6 +2,7 @@ package com.bitty.root;
 
 import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
+import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -12,9 +13,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Root {
@@ -34,9 +37,11 @@ public class Root {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
+                            p.addLast(new IdleStateHandler(60, 60, 5, TimeUnit.SECONDS));
                             p.addLast(new BittyDecoder());
                             p.addLast(new BittyEncoder());
                             p.addLast(new LoggingHandler(LogLevel.INFO));
+                            p.addLast(new BittyHeartBeatServerHandler());
                             p.addLast(new BittyRootHandler());
                         }
                     });

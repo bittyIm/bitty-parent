@@ -1,16 +1,21 @@
 package com.bitty.codec;
 
+import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import com.bitty.common.handler.ClientAutoConnectHandler;
 import com.bitty.proto.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -30,7 +35,6 @@ class BittyDecoderTest {
     static Properties properties = new Properties();
 
     @BeforeAll
-
     static void startServer() throws IOException, ClassNotFoundException, InterruptedException {
         log.info("start test server");
         final InputStream stream = BittyDecoderTest.class.getResourceAsStream("/application.test.properties");
@@ -51,14 +55,15 @@ class BittyDecoderTest {
                             protected void initChannel(SocketChannel ch) throws Exception {
                                 ChannelPipeline pipeline = ch.pipeline();
                                 pipeline.addLast(new IdleStateHandler(60,60,5, TimeUnit.SECONDS));
+                                pipeline.addLast(new LengthFieldBasedFrameDecoder(1024,2,4,0,0));
                                 pipeline.addLast(new BittyDecoder());
                                 pipeline.addLast(new BittyEncoder());
-                                pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                                pipeline.addLast(new BittyHeartBeatServerHandler());
                                 pipeline.addLast(new SimpleChannelInboundHandler<Message.MessageFrame>() {
                                     @Override
                                     protected void channelRead0(ChannelHandlerContext ctx, Message.MessageFrame message) throws Exception {
-                                        log.info("echo");
-                                        ctx.writeAndFlush(message);
+                                        log.info("server receive:"+message.getPayload());
+                                        ctx.writeAndFlush(message).sync();
                                     }
                                 });
                             }
@@ -89,6 +94,7 @@ class BittyDecoderTest {
         log.info("start test client");
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
@@ -97,14 +103,15 @@ class BittyDecoderTest {
                     protected void initChannel(SocketChannel sc) throws Exception {
                         ChannelPipeline pipeline = sc.pipeline();
                         pipeline.addLast(new LoggingHandler(LogLevel.TRACE));
+                        pipeline.addLast(new LengthFieldBasedFrameDecoder(1024,2,4,0,0));
                         pipeline.addLast(new BittyDecoder());
                         pipeline.addLast(new BittyEncoder());
                         pipeline.addLast(new ClientAutoConnectHandler(b));
-                        pipeline.addLast(new LineBasedFrameDecoder(1024));
                         pipeline.addLast(new SimpleChannelInboundHandler<Message.MessageFrame>() {
                             @Override
-                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, Message.MessageFrame msg) {
-                                log.info("处理回调消息" + msg);
+                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, Message.MessageFrame msg) throws InterruptedException {
+                                log.info("success" + msg.getPayload());
+                                countDownLatch.countDown();
                             }
                         });
                     }
@@ -112,18 +119,19 @@ class BittyDecoderTest {
         try {
             Channel ch = b.connect((String) properties.get("app.test.server"), Integer.parseInt((String) properties.get("app.test.port"))).sync().channel();
 
-            var msg = Message.MessageFrame.newBuilder()
+            var payload = Message.MessageFrame.newBuilder()
                     .setCreateAt(2000)
                     .setMessageId(1000)
                     .setPayload("hello encoder")
-                    .build()
-                    .toByteArray();
+                    .build();
 
-            ChannelFuture lastWriteFuture = ch.writeAndFlush(Unpooled.copiedBuffer(msg)).sync();
+            ChannelFuture lastWriteFuture = ch.writeAndFlush(payload).sync();
             lastWriteFuture.sync();
+            countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
             group.shutdownGracefully();
         }
+
     }
 }

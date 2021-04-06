@@ -21,7 +21,8 @@ public class ClientAutoConnectHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("重新连接");
-        bootstrap.connect(bootstrap.config().remoteAddress()).sync();
+        log.info("处理重连逻辑");
+
+//        bootstrap.connect(ctx.channel().remoteAddress()).sync();
     }
 }

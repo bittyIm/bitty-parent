@@ -15,7 +15,6 @@
             <groupId>com.bitty</groupId>
             <artifactId>bitty-proto</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.bitty</groupId>
