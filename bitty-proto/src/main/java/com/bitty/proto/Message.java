@@ -83,10 +83,19 @@ public final class Message {
      *命令码
      * </pre>
      *
-     * <code>bytes Cmd = 7;</code>
+     * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+     * @return The enum numeric value on the wire for cmd.
+     */
+    int getCmdValue();
+    /**
+     * <pre>
+     *命令码
+     * </pre>
+     *
+     * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
      * @return The cmd.
      */
-    com.google.protobuf.ByteString getCmd();
+    com.bitty.proto.Message.MessageFrame.Cmd getCmd();
 
     /**
      * <pre>
@@ -103,20 +112,10 @@ public final class Message {
      *消息内容
      * </pre>
      *
-     * <code>string payload = 9;</code>
+     * <code>bytes payload = 9;</code>
      * @return The payload.
      */
-    java.lang.String getPayload();
-    /**
-     * <pre>
-     *消息内容
-     * </pre>
-     *
-     * <code>string payload = 9;</code>
-     * @return The bytes for payload.
-     */
-    com.google.protobuf.ByteString
-        getPayloadBytes();
+    com.google.protobuf.ByteString getPayload();
   }
   /**
    * Protobuf type {@code com.bitty.proto.MessageFrame}
@@ -131,9 +130,9 @@ public final class Message {
       super(builder);
     }
     private MessageFrame() {
-      cmd_ = com.google.protobuf.ByteString.EMPTY;
+      cmd_ = 0;
       type_ = com.google.protobuf.ByteString.EMPTY;
-      payload_ = "";
+      payload_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -196,9 +195,10 @@ public final class Message {
               sourceNode_ = input.readInt32();
               break;
             }
-            case 58: {
+            case 56: {
+              int rawValue = input.readEnum();
 
-              cmd_ = input.readBytes();
+              cmd_ = rawValue;
               break;
             }
             case 66: {
@@ -207,9 +207,8 @@ public final class Message {
               break;
             }
             case 74: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              payload_ = s;
+              payload_ = input.readBytes();
               break;
             }
             default: {
@@ -242,6 +241,180 @@ public final class Message {
       return com.bitty.proto.Message.internal_static_com_bitty_proto_MessageFrame_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.bitty.proto.Message.MessageFrame.class, com.bitty.proto.Message.MessageFrame.Builder.class);
+    }
+
+    /**
+     * <pre>
+     *设备命令码
+     * </pre>
+     *
+     * Protobuf enum {@code com.bitty.proto.MessageFrame.Cmd}
+     */
+    public enum Cmd
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>PING = 0;</code>
+       */
+      PING(0),
+      /**
+       * <code>ERROR = 99;</code>
+       */
+      ERROR(99),
+      /**
+       * <code>OK = 100;</code>
+       */
+      OK(100),
+      /**
+       * <pre>
+       **
+       *鉴权
+       * </pre>
+       *
+       * <code>AUTH = 1;</code>
+       */
+      AUTH(1),
+      /**
+       * <pre>
+       **
+       *发送消息
+       * </pre>
+       *
+       * <code>MESSAGE = 2;</code>
+       */
+      MESSAGE(2),
+      /**
+       * <pre>
+       **
+       *同步消息
+       * </pre>
+       *
+       * <code>SYNC = 3;</code>
+       */
+      SYNC(3),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>PING = 0;</code>
+       */
+      public static final int PING_VALUE = 0;
+      /**
+       * <code>ERROR = 99;</code>
+       */
+      public static final int ERROR_VALUE = 99;
+      /**
+       * <code>OK = 100;</code>
+       */
+      public static final int OK_VALUE = 100;
+      /**
+       * <pre>
+       **
+       *鉴权
+       * </pre>
+       *
+       * <code>AUTH = 1;</code>
+       */
+      public static final int AUTH_VALUE = 1;
+      /**
+       * <pre>
+       **
+       *发送消息
+       * </pre>
+       *
+       * <code>MESSAGE = 2;</code>
+       */
+      public static final int MESSAGE_VALUE = 2;
+      /**
+       * <pre>
+       **
+       *同步消息
+       * </pre>
+       *
+       * <code>SYNC = 3;</code>
+       */
+      public static final int SYNC_VALUE = 3;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Cmd valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static Cmd forNumber(int value) {
+        switch (value) {
+          case 0: return PING;
+          case 99: return ERROR;
+          case 100: return OK;
+          case 1: return AUTH;
+          case 2: return MESSAGE;
+          case 3: return SYNC;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Cmd>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Cmd> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Cmd>() {
+              public Cmd findValueByNumber(int number) {
+                return Cmd.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.bitty.proto.Message.MessageFrame.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Cmd[] VALUES = values();
+
+      public static Cmd valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Cmd(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:com.bitty.proto.MessageFrame.Cmd)
     }
 
     public static final int MESSAGEID_FIELD_NUMBER = 1;
@@ -329,17 +502,30 @@ public final class Message {
     }
 
     public static final int CMD_FIELD_NUMBER = 7;
-    private com.google.protobuf.ByteString cmd_;
+    private int cmd_;
     /**
      * <pre>
      *命令码
      * </pre>
      *
-     * <code>bytes Cmd = 7;</code>
+     * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+     * @return The enum numeric value on the wire for cmd.
+     */
+    public int getCmdValue() {
+      return cmd_;
+    }
+    /**
+     * <pre>
+     *命令码
+     * </pre>
+     *
+     * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
      * @return The cmd.
      */
-    public com.google.protobuf.ByteString getCmd() {
-      return cmd_;
+    public com.bitty.proto.Message.MessageFrame.Cmd getCmd() {
+      @SuppressWarnings("deprecation")
+      com.bitty.proto.Message.MessageFrame.Cmd result = com.bitty.proto.Message.MessageFrame.Cmd.valueOf(cmd_);
+      return result == null ? com.bitty.proto.Message.MessageFrame.Cmd.UNRECOGNIZED : result;
     }
 
     public static final int TYPE_FIELD_NUMBER = 8;
@@ -357,47 +543,17 @@ public final class Message {
     }
 
     public static final int PAYLOAD_FIELD_NUMBER = 9;
-    private volatile java.lang.Object payload_;
+    private com.google.protobuf.ByteString payload_;
     /**
      * <pre>
      *消息内容
      * </pre>
      *
-     * <code>string payload = 9;</code>
+     * <code>bytes payload = 9;</code>
      * @return The payload.
      */
-    public java.lang.String getPayload() {
-      java.lang.Object ref = payload_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        payload_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     *消息内容
-     * </pre>
-     *
-     * <code>string payload = 9;</code>
-     * @return The bytes for payload.
-     */
-    public com.google.protobuf.ByteString
-        getPayloadBytes() {
-      java.lang.Object ref = payload_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        payload_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getPayload() {
+      return payload_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -432,14 +588,14 @@ public final class Message {
       if (sourceNode_ != 0) {
         output.writeInt32(6, sourceNode_);
       }
-      if (!cmd_.isEmpty()) {
-        output.writeBytes(7, cmd_);
+      if (cmd_ != com.bitty.proto.Message.MessageFrame.Cmd.PING.getNumber()) {
+        output.writeEnum(7, cmd_);
       }
       if (!type_.isEmpty()) {
         output.writeBytes(8, type_);
       }
-      if (!getPayloadBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, payload_);
+      if (!payload_.isEmpty()) {
+        output.writeBytes(9, payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -474,16 +630,17 @@ public final class Message {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, sourceNode_);
       }
-      if (!cmd_.isEmpty()) {
+      if (cmd_ != com.bitty.proto.Message.MessageFrame.Cmd.PING.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(7, cmd_);
+          .computeEnumSize(7, cmd_);
       }
       if (!type_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(8, type_);
       }
-      if (!getPayloadBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, payload_);
+      if (!payload_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -512,8 +669,7 @@ public final class Message {
           != other.getSourceId()) return false;
       if (getSourceNode()
           != other.getSourceNode()) return false;
-      if (!getCmd()
-          .equals(other.getCmd())) return false;
+      if (cmd_ != other.cmd_) return false;
       if (!getType()
           .equals(other.getType())) return false;
       if (!getPayload()
@@ -542,7 +698,7 @@ public final class Message {
       hash = (37 * hash) + SOURCENODE_FIELD_NUMBER;
       hash = (53 * hash) + getSourceNode();
       hash = (37 * hash) + CMD_FIELD_NUMBER;
-      hash = (53 * hash) + getCmd().hashCode();
+      hash = (53 * hash) + cmd_;
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + PAYLOAD_FIELD_NUMBER;
@@ -692,11 +848,11 @@ public final class Message {
 
         sourceNode_ = 0;
 
-        cmd_ = com.google.protobuf.ByteString.EMPTY;
+        cmd_ = 0;
 
         type_ = com.google.protobuf.ByteString.EMPTY;
 
-        payload_ = "";
+        payload_ = com.google.protobuf.ByteString.EMPTY;
 
         return this;
       }
@@ -799,15 +955,14 @@ public final class Message {
         if (other.getSourceNode() != 0) {
           setSourceNode(other.getSourceNode());
         }
-        if (other.getCmd() != com.google.protobuf.ByteString.EMPTY) {
-          setCmd(other.getCmd());
+        if (other.cmd_ != 0) {
+          setCmdValue(other.getCmdValue());
         }
         if (other.getType() != com.google.protobuf.ByteString.EMPTY) {
           setType(other.getType());
         }
-        if (!other.getPayload().isEmpty()) {
-          payload_ = other.payload_;
-          onChanged();
+        if (other.getPayload() != com.google.protobuf.ByteString.EMPTY) {
+          setPayload(other.getPayload());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1090,16 +1245,16 @@ public final class Message {
         return this;
       }
 
-      private com.google.protobuf.ByteString cmd_ = com.google.protobuf.ByteString.EMPTY;
+      private int cmd_ = 0;
       /**
        * <pre>
        *命令码
        * </pre>
        *
-       * <code>bytes Cmd = 7;</code>
-       * @return The cmd.
+       * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+       * @return The enum numeric value on the wire for cmd.
        */
-      public com.google.protobuf.ByteString getCmd() {
+      public int getCmdValue() {
         return cmd_;
       }
       /**
@@ -1107,15 +1262,11 @@ public final class Message {
        *命令码
        * </pre>
        *
-       * <code>bytes Cmd = 7;</code>
-       * @param value The cmd to set.
+       * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+       * @param value The enum numeric value on the wire for cmd to set.
        * @return This builder for chaining.
        */
-      public Builder setCmd(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setCmdValue(int value) {
         cmd_ = value;
         onChanged();
         return this;
@@ -1125,12 +1276,43 @@ public final class Message {
        *命令码
        * </pre>
        *
-       * <code>bytes Cmd = 7;</code>
+       * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+       * @return The cmd.
+       */
+      public com.bitty.proto.Message.MessageFrame.Cmd getCmd() {
+        @SuppressWarnings("deprecation")
+        com.bitty.proto.Message.MessageFrame.Cmd result = com.bitty.proto.Message.MessageFrame.Cmd.valueOf(cmd_);
+        return result == null ? com.bitty.proto.Message.MessageFrame.Cmd.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       *命令码
+       * </pre>
+       *
+       * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
+       * @param value The cmd to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCmd(com.bitty.proto.Message.MessageFrame.Cmd value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        cmd_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *命令码
+       * </pre>
+       *
+       * <code>.com.bitty.proto.MessageFrame.Cmd cmd = 7;</code>
        * @return This builder for chaining.
        */
       public Builder clearCmd() {
         
-        cmd_ = getDefaultInstance().getCmd();
+        cmd_ = 0;
         onChanged();
         return this;
       }
@@ -1180,59 +1362,28 @@ public final class Message {
         return this;
       }
 
-      private java.lang.Object payload_ = "";
+      private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
        *消息内容
        * </pre>
        *
-       * <code>string payload = 9;</code>
+       * <code>bytes payload = 9;</code>
        * @return The payload.
        */
-      public java.lang.String getPayload() {
-        java.lang.Object ref = payload_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          payload_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public com.google.protobuf.ByteString getPayload() {
+        return payload_;
       }
       /**
        * <pre>
        *消息内容
        * </pre>
        *
-       * <code>string payload = 9;</code>
-       * @return The bytes for payload.
-       */
-      public com.google.protobuf.ByteString
-          getPayloadBytes() {
-        java.lang.Object ref = payload_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          payload_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       *消息内容
-       * </pre>
-       *
-       * <code>string payload = 9;</code>
+       * <code>bytes payload = 9;</code>
        * @param value The payload to set.
        * @return This builder for chaining.
        */
-      public Builder setPayload(
-          java.lang.String value) {
+      public Builder setPayload(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -1246,32 +1397,12 @@ public final class Message {
        *消息内容
        * </pre>
        *
-       * <code>string payload = 9;</code>
+       * <code>bytes payload = 9;</code>
        * @return This builder for chaining.
        */
       public Builder clearPayload() {
         
         payload_ = getDefaultInstance().getPayload();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *消息内容
-       * </pre>
-       *
-       * <code>string payload = 9;</code>
-       * @param value The bytes for payload to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPayloadBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        payload_ = value;
         onChanged();
         return this;
       }
@@ -1328,11 +1459,782 @@ public final class Message {
 
   }
 
+  public interface AuthOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.bitty.proto.Auth)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+     * @return The enum numeric value on the wire for schema.
+     */
+    int getSchemaValue();
+    /**
+     * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+     * @return The schema.
+     */
+    com.bitty.proto.Message.Auth.Schema getSchema();
+
+    /**
+     * <code>string token = 2;</code>
+     * @return The token.
+     */
+    java.lang.String getToken();
+    /**
+     * <code>string token = 2;</code>
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+  }
+  /**
+   * Protobuf type {@code com.bitty.proto.Auth}
+   */
+  public  static final class Auth extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:com.bitty.proto.Auth)
+      AuthOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Auth.newBuilder() to construct.
+    private Auth(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Auth() {
+      schema_ = 0;
+      token_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Auth();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Auth(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              schema_ = rawValue;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bitty.proto.Message.internal_static_com_bitty_proto_Auth_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bitty.proto.Message.internal_static_com_bitty_proto_Auth_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bitty.proto.Message.Auth.class, com.bitty.proto.Message.Auth.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code com.bitty.proto.Auth.Schema}
+     */
+    public enum Schema
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>TCP = 0;</code>
+       */
+      TCP(0),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>TCP = 0;</code>
+       */
+      public static final int TCP_VALUE = 0;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Schema valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static Schema forNumber(int value) {
+        switch (value) {
+          case 0: return TCP;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Schema>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Schema> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Schema>() {
+              public Schema findValueByNumber(int number) {
+                return Schema.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.bitty.proto.Message.Auth.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Schema[] VALUES = values();
+
+      public static Schema valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Schema(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:com.bitty.proto.Auth.Schema)
+    }
+
+    public static final int SCHEMA_FIELD_NUMBER = 1;
+    private int schema_;
+    /**
+     * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+     * @return The enum numeric value on the wire for schema.
+     */
+    public int getSchemaValue() {
+      return schema_;
+    }
+    /**
+     * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+     * @return The schema.
+     */
+    public com.bitty.proto.Message.Auth.Schema getSchema() {
+      @SuppressWarnings("deprecation")
+      com.bitty.proto.Message.Auth.Schema result = com.bitty.proto.Message.Auth.Schema.valueOf(schema_);
+      return result == null ? com.bitty.proto.Message.Auth.Schema.UNRECOGNIZED : result;
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 2;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>string token = 2;</code>
+     * @return The token.
+     */
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string token = 2;</code>
+     * @return The bytes for token.
+     */
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (schema_ != com.bitty.proto.Message.Auth.Schema.TCP.getNumber()) {
+        output.writeEnum(1, schema_);
+      }
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (schema_ != com.bitty.proto.Message.Auth.Schema.TCP.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, schema_);
+      }
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.bitty.proto.Message.Auth)) {
+        return super.equals(obj);
+      }
+      com.bitty.proto.Message.Auth other = (com.bitty.proto.Message.Auth) obj;
+
+      if (schema_ != other.schema_) return false;
+      if (!getToken()
+          .equals(other.getToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SCHEMA_FIELD_NUMBER;
+      hash = (53 * hash) + schema_;
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.bitty.proto.Message.Auth parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bitty.proto.Message.Auth parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.bitty.proto.Message.Auth parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.bitty.proto.Message.Auth parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.bitty.proto.Message.Auth prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.bitty.proto.Auth}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.bitty.proto.Auth)
+        com.bitty.proto.Message.AuthOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bitty.proto.Message.internal_static_com_bitty_proto_Auth_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bitty.proto.Message.internal_static_com_bitty_proto_Auth_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bitty.proto.Message.Auth.class, com.bitty.proto.Message.Auth.Builder.class);
+      }
+
+      // Construct using com.bitty.proto.Message.Auth.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        schema_ = 0;
+
+        token_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bitty.proto.Message.internal_static_com_bitty_proto_Auth_descriptor;
+      }
+
+      @java.lang.Override
+      public com.bitty.proto.Message.Auth getDefaultInstanceForType() {
+        return com.bitty.proto.Message.Auth.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.bitty.proto.Message.Auth build() {
+        com.bitty.proto.Message.Auth result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.bitty.proto.Message.Auth buildPartial() {
+        com.bitty.proto.Message.Auth result = new com.bitty.proto.Message.Auth(this);
+        result.schema_ = schema_;
+        result.token_ = token_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bitty.proto.Message.Auth) {
+          return mergeFrom((com.bitty.proto.Message.Auth)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bitty.proto.Message.Auth other) {
+        if (other == com.bitty.proto.Message.Auth.getDefaultInstance()) return this;
+        if (other.schema_ != 0) {
+          setSchemaValue(other.getSchemaValue());
+        }
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bitty.proto.Message.Auth parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bitty.proto.Message.Auth) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int schema_ = 0;
+      /**
+       * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+       * @return The enum numeric value on the wire for schema.
+       */
+      public int getSchemaValue() {
+        return schema_;
+      }
+      /**
+       * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+       * @param value The enum numeric value on the wire for schema to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSchemaValue(int value) {
+        schema_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+       * @return The schema.
+       */
+      public com.bitty.proto.Message.Auth.Schema getSchema() {
+        @SuppressWarnings("deprecation")
+        com.bitty.proto.Message.Auth.Schema result = com.bitty.proto.Message.Auth.Schema.valueOf(schema_);
+        return result == null ? com.bitty.proto.Message.Auth.Schema.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+       * @param value The schema to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSchema(com.bitty.proto.Message.Auth.Schema value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        schema_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.bitty.proto.Auth.Schema schema = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSchema() {
+        
+        schema_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object token_ = "";
+      /**
+       * <code>string token = 2;</code>
+       * @return The token.
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @return The bytes for token.
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToken() {
+        
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:com.bitty.proto.Auth)
+    }
+
+    // @@protoc_insertion_point(class_scope:com.bitty.proto.Auth)
+    private static final com.bitty.proto.Message.Auth DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.bitty.proto.Message.Auth();
+    }
+
+    public static com.bitty.proto.Message.Auth getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Auth>
+        PARSER = new com.google.protobuf.AbstractParser<Auth>() {
+      @java.lang.Override
+      public Auth parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Auth(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Auth> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Auth> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.bitty.proto.Message.Auth getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_bitty_proto_MessageFrame_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_bitty_proto_MessageFrame_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_bitty_proto_Auth_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_bitty_proto_Auth_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1342,12 +2244,17 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmessage.proto\022\017com.bitty.proto\"\253\001\n\014Mes" +
+      "\n\rmessage.proto\022\017com.bitty.proto\"\223\002\n\014Mes" +
       "sageFrame\022\021\n\tmessageId\030\001 \001(\005\022\020\n\010createAt" +
       "\030\002 \001(\005\022\022\n\ntargetNode\030\003 \001(\005\022\020\n\010targetId\030\004" +
       " \001(\005\022\020\n\010sourceId\030\005 \001(\005\022\022\n\nsourceNode\030\006 \001" +
-      "(\005\022\013\n\003Cmd\030\007 \001(\014\022\014\n\004Type\030\010 \001(\014\022\017\n\007payload" +
-      "\030\t \001(\tB\tB\007Messageb\006proto3"
+      "(\005\022.\n\003cmd\030\007 \001(\0162!.com.bitty.proto.Messag" +
+      "eFrame.Cmd\022\014\n\004Type\030\010 \001(\014\022\017\n\007payload\030\t \001(" +
+      "\014\"C\n\003Cmd\022\010\n\004PING\020\000\022\t\n\005ERROR\020c\022\006\n\002OK\020d\022\010\n" +
+      "\004AUTH\020\001\022\013\n\007MESSAGE\020\002\022\010\n\004SYNC\020\003\"V\n\004Auth\022," +
+      "\n\006schema\030\001 \001(\0162\034.com.bitty.proto.Auth.Sc" +
+      "hema\022\r\n\005token\030\002 \001(\t\"\021\n\006Schema\022\007\n\003TCP\020\000B\t" +
+      "B\007Messageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1359,6 +2266,12 @@ public final class Message {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_bitty_proto_MessageFrame_descriptor,
         new java.lang.String[] { "MessageId", "CreateAt", "TargetNode", "TargetId", "SourceId", "SourceNode", "Cmd", "Type", "Payload", });
+    internal_static_com_bitty_proto_Auth_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_bitty_proto_Auth_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_bitty_proto_Auth_descriptor,
+        new java.lang.String[] { "Schema", "Token", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

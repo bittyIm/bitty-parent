@@ -18,9 +18,35 @@ message MessageFrame {
   //源节点
   int32 sourceNode = 6;
   //命令码
-  bytes Cmd = 7;
+  Cmd cmd = 7;
+  //设备命令码
+  enum Cmd {
+    PING = 0;
+    ERROR = 99;
+    OK = 100;
+    /**
+    鉴权
+     */
+    AUTH = 1;
+    /**
+    发送消息
+     */
+    MESSAGE=2;
+    /**
+    同步消息
+     */
+    SYNC=3;
+  }
   //命令子类型
   bytes Type = 8;
   //消息内容
-  string payload = 9;
+  bytes payload = 9;
+}
+
+message Auth {
+  Schema schema = 1;
+  enum Schema {
+    TCP = 0;
+  }
+  string  token = 2;
 }

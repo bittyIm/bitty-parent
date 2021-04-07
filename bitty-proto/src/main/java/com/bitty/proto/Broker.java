@@ -165,6 +165,10 @@ public final class Broker {
        */
       ERROR(99),
       /**
+       * <code>OK = 100;</code>
+       */
+      OK(100),
+      /**
        * <code>resolveNode = 1;</code>
        */
       resolveNode(1),
@@ -223,6 +227,10 @@ public final class Broker {
        * <code>ERROR = 99;</code>
        */
       public static final int ERROR_VALUE = 99;
+      /**
+       * <code>OK = 100;</code>
+       */
+      public static final int OK_VALUE = 100;
       /**
        * <code>resolveNode = 1;</code>
        */
@@ -299,6 +307,7 @@ public final class Broker {
         switch (value) {
           case 0: return PING;
           case 99: return ERROR;
+          case 100: return OK;
           case 1: return resolveNode;
           case 2: return resolveUser;
           case 3: return status;
@@ -1923,6 +1932,17 @@ public final class Broker {
      * @return The port.
      */
     int getPort();
+
+    /**
+     * <pre>
+     **
+     *broker生命周期
+     * </pre>
+     *
+     * <code>int32 ttl = 5;</code>
+     * @return The ttl.
+     */
+    int getTtl();
   }
   /**
    * <pre>
@@ -1996,6 +2016,11 @@ public final class Broker {
             case 32: {
 
               port_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              ttl_ = input.readInt32();
               break;
             }
             default: {
@@ -2200,6 +2225,21 @@ public final class Broker {
       return port_;
     }
 
+    public static final int TTL_FIELD_NUMBER = 5;
+    private int ttl_;
+    /**
+     * <pre>
+     **
+     *broker生命周期
+     * </pre>
+     *
+     * <code>int32 ttl = 5;</code>
+     * @return The ttl.
+     */
+    public int getTtl() {
+      return ttl_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2226,6 +2266,9 @@ public final class Broker {
       if (port_ != 0) {
         output.writeInt32(4, port_);
       }
+      if (ttl_ != 0) {
+        output.writeInt32(5, ttl_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2250,6 +2293,10 @@ public final class Broker {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, port_);
       }
+      if (ttl_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, ttl_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2272,6 +2319,8 @@ public final class Broker {
           .equals(other.getIp())) return false;
       if (getPort()
           != other.getPort()) return false;
+      if (getTtl()
+          != other.getTtl()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2291,6 +2340,8 @@ public final class Broker {
       hash = (53 * hash) + getIp().hashCode();
       hash = (37 * hash) + PORT_FIELD_NUMBER;
       hash = (53 * hash) + getPort();
+      hash = (37 * hash) + TTL_FIELD_NUMBER;
+      hash = (53 * hash) + getTtl();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2437,6 +2488,8 @@ public final class Broker {
 
         port_ = 0;
 
+        ttl_ = 0;
+
         return this;
       }
 
@@ -2467,6 +2520,7 @@ public final class Broker {
         result.node_ = node_;
         result.ip_ = ip_;
         result.port_ = port_;
+        result.ttl_ = ttl_;
         onBuilt();
         return result;
       }
@@ -2527,6 +2581,9 @@ public final class Broker {
         }
         if (other.getPort() != 0) {
           setPort(other.getPort());
+        }
+        if (other.getTtl() != 0) {
+          setTtl(other.getTtl());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2744,6 +2801,51 @@ public final class Broker {
         onChanged();
         return this;
       }
+
+      private int ttl_ ;
+      /**
+       * <pre>
+       **
+       *broker生命周期
+       * </pre>
+       *
+       * <code>int32 ttl = 5;</code>
+       * @return The ttl.
+       */
+      public int getTtl() {
+        return ttl_;
+      }
+      /**
+       * <pre>
+       **
+       *broker生命周期
+       * </pre>
+       *
+       * <code>int32 ttl = 5;</code>
+       * @param value The ttl to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTtl(int value) {
+        
+        ttl_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       **
+       *broker生命周期
+       * </pre>
+       *
+       * <code>int32 ttl = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTtl() {
+        
+        ttl_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2821,20 +2923,20 @@ public final class Broker {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014broker.proto\022\017com.bitty.proto\"\346\001\n\014Mess" +
+      "\n\014broker.proto\022\017com.bitty.proto\"\356\001\n\014Mess" +
       "ageFrame\022\021\n\tisRequest\030\001 \001(\010\022.\n\003cmd\030\002 \001(\016" +
       "2!.com.bitty.proto.MessageFrame.Cmd\022\r\n\005r" +
-      "eqId\030\003 \001(\005\022\017\n\007payload\030\004 \001(\014\"s\n\003Cmd\022\010\n\004PI" +
-      "NG\020\000\022\t\n\005ERROR\020c\022\017\n\013resolveNode\020\001\022\017\n\013reso" +
-      "lveUser\020\002\022\n\n\006status\020\003\022\010\n\004DOWN\020\004\022\006\n\002Up\020\005\022" +
-      "\013\n\007Forward\020\006\022\n\n\006signup\020\007\"}\n\013resolveNode\022" +
-      "3\n\006schema\030\001 \001(\0162#.com.bitty.proto.resolv" +
-      "eNode.Schema\022\014\n\004node\030\002 \001(\005\022\n\n\002ip\030\003 \001(\t\022\014" +
-      "\n\004port\030\004 \001(\005\"\021\n\006Schema\022\007\n\003TCP\020\000\"{\n\nsignu" +
-      "pNode\0222\n\006schema\030\001 \001(\0162\".com.bitty.proto." +
-      "signupNode.Schema\022\014\n\004node\030\002 \001(\005\022\n\n\002ip\030\003 " +
-      "\001(\t\022\014\n\004port\030\004 \001(\005\"\021\n\006Schema\022\007\n\003TCP\020\000B\010B\006" +
-      "Brokerb\006proto3"
+      "eqId\030\003 \001(\005\022\017\n\007payload\030\004 \001(\014\"{\n\003Cmd\022\010\n\004PI" +
+      "NG\020\000\022\t\n\005ERROR\020c\022\006\n\002OK\020d\022\017\n\013resolveNode\020\001" +
+      "\022\017\n\013resolveUser\020\002\022\n\n\006status\020\003\022\010\n\004DOWN\020\004\022" +
+      "\006\n\002Up\020\005\022\013\n\007Forward\020\006\022\n\n\006signup\020\007\"}\n\013reso" +
+      "lveNode\0223\n\006schema\030\001 \001(\0162#.com.bitty.prot" +
+      "o.resolveNode.Schema\022\014\n\004node\030\002 \001(\005\022\n\n\002ip" +
+      "\030\003 \001(\t\022\014\n\004port\030\004 \001(\005\"\021\n\006Schema\022\007\n\003TCP\020\000\"" +
+      "\210\001\n\nsignupNode\0222\n\006schema\030\001 \001(\0162\".com.bit" +
+      "ty.proto.signupNode.Schema\022\014\n\004node\030\002 \001(\005" +
+      "\022\n\n\002ip\030\003 \001(\t\022\014\n\004port\030\004 \001(\005\022\013\n\003ttl\030\005 \001(\005\"" +
+      "\021\n\006Schema\022\007\n\003TCP\020\000B\010B\006Brokerb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2857,7 +2959,7 @@ public final class Broker {
     internal_static_com_bitty_proto_signupNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_bitty_proto_signupNode_descriptor,
-        new java.lang.String[] { "Schema", "Node", "Ip", "Port", });
+        new java.lang.String[] { "Schema", "Node", "Ip", "Port", "Ttl", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -9,7 +9,7 @@ message MessageFrame {
   enum Cmd {
     PING = 0;
     ERROR = 99;
-
+    OK = 100;
     resolveNode = 1;
     resolveUser = 2;
     status = 3;
@@ -60,6 +60,10 @@ message signupNode {
   int32  node = 2;
   string  ip = 3;
   int32  port = 4;
+  /**
+  broker生命周期
+   */
+  int32  ttl = 5;
 }
 
 
