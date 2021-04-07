@@ -1,6 +1,7 @@
 package com.bitty.proto;
 
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
@@ -13,7 +14,7 @@ class MessageTest {
     public void test1() throws InvalidProtocolBufferException {
 
         byte[] m = Message.MessageFrame.newBuilder()
-                .setPayload("hello bitty")
+                .setPayload(ByteString.copyFromUtf8("hello bitty"))
                 .build()
                 .toByteArray();
 
@@ -24,6 +25,6 @@ class MessageTest {
                 .mergeFrom(m)
                 .build();
 
-        log.info(ms.getPayload());
+        log.info(ms.getPayload().toStringUtf8());
     }
 }

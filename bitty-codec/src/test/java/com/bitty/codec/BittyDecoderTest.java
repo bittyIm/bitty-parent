@@ -3,21 +3,15 @@ package com.bitty.codec;
 import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import com.bitty.common.handler.ClientAutoConnectHandler;
 import com.bitty.proto.Message;
+import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LineBasedFrameDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
@@ -132,7 +126,7 @@ class BittyDecoderTest {
             while (i<3000) {
                 var payload = Message.MessageFrame.newBuilder()
                         .setTargetId(1)
-                        .setPayload("hello bitty test ").build();
+                        .setPayload(ByteString.copyFromUtf8("hello bitty test ")).build();
 
                 ch.writeAndFlush(payload).sync();
                 i++;

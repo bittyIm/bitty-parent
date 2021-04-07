@@ -9,7 +9,7 @@ import com.bitty.common.Network;
  */
 public class LocalNetwork implements Network {
     @Override
-    public void Send() {
+    public void send() {
 
     }
 }

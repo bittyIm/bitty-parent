@@ -1,7 +1,6 @@
 package com.bitty.codec;
 
 import com.bitty.proto.Broker;
-import com.bitty.proto.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;

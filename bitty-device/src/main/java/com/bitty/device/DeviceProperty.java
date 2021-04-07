@@ -11,6 +11,7 @@ public class DeviceProperty {
     String serverIp;
     Integer serverPort;
     Integer nodeId;
+    String token;
     public DeviceProperty(){
 
     }
@@ -23,6 +24,7 @@ public class DeviceProperty {
         properties.load(stream);
         this.serverIp=properties.getProperty("app.broker.server");
         this.serverPort=Integer.parseInt(properties.getProperty("app.broker.port"));
+        this.setToken(properties.getProperty("app.user.token"));
     }
 
     public void loadProperty(String path) throws IOException {

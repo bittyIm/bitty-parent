@@ -6,7 +6,6 @@ import com.bitty.device.local.Client;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class Container<T> extends BittyContainer {
         client=new Client(property);
     }
 
-    public void init(DeviceProperty deviceProperty) throws IOException {
+    public void init(DeviceProperty deviceProperty){
         property=deviceProperty;
         initLocalClient();
 //        initLocalNetwork();

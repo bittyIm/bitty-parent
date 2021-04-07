@@ -1,11 +1,10 @@
 package com.bitty.codec;
 
+import com.bitty.proto.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
-import com.bitty.proto.Message;
-
 
 import java.util.List;
 

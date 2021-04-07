@@ -4,7 +4,6 @@ import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
 import com.bitty.common.handler.BittyHeartBeatServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -12,12 +11,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +42,7 @@ public class Broker {
     public void initStart(BrokerProperty property) {
         this.property = property;
 
-        log.info("启动broker服务器 {} {} ",property.getServerIp(),property.getServerPort());
+        log.info("启动broker服务器 {} {} {}",property.getServerIp(),property.getServerPort(),property.getNodeId());
 
         try {
             ServerBootstrap b = new ServerBootstrap();
@@ -58,11 +52,12 @@ public class Broker {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 2, 4, 0, 0));
                             pipeline.addLast(new IdleStateHandler(60, 60, 5, TimeUnit.SECONDS));
                             pipeline.addLast(new BittyDecoder());
                             pipeline.addLast(new BittyEncoder());
+                            pipeline.addLast(new BittyMessageHandler(brokerContainer));
                             pipeline.addLast(new BittyHeartBeatServerHandler());
-                            pipeline.addLast(new BittyHandler(brokerContainer));
                         }
                     });
 

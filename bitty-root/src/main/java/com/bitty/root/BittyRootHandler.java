@@ -1,7 +1,7 @@
 package com.bitty.root;
 
 import com.bitty.proto.Broker;
-import com.bitty.proto.Message;
+import com.bitty.root.node.NodeContainer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -12,15 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BittyRootHandler extends SimpleChannelInboundHandler<Broker.MessageFrame> {
 
+    NodeContainer nodeContainer;
+
+    public BittyRootHandler(NodeContainer nodeContainer) {
+        this.nodeContainer=nodeContainer;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Broker.MessageFrame msg) throws Exception {
-        log.info("消息类型 {}", msg.getCmd());
-        log.info("判断本地用户");
-        log.info("判断远程用户");
-        log.info("放入本地缓存");
-        log.info("查找对端用户所在的broker");
-        log.info("执行路由");
-//        channelHandlerContext.writeAndFlush("hello broker");
+        log.info("消息类型 {} id: {}", msg.getCmd(),msg.getReqId());
+        if(msg.getCmd()==Broker.MessageFrame.Cmd.signup){
+            nodeContainer.signup(channelHandlerContext,msg);
+            return;
+        }
     }
 }
