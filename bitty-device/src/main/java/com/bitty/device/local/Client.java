@@ -2,6 +2,7 @@ package com.bitty.device.local;
 
 import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
+import com.bitty.device.DeviceProperty;
 import com.bitty.proto.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -19,7 +20,7 @@ import java.util.Properties;
 public class Client {
     Channel ch = null;
 
-    public Client(Properties properties) {
+    public Client(DeviceProperty properties) {
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
         b.group(group)
@@ -41,7 +42,7 @@ public class Client {
                     }
                 });
         try {
-            ch = b.connect((String) properties.get("app.broker.server"), Integer.parseInt((String) properties.get("app.broker.port"))).sync().channel();
+            ch = b.connect(properties.getServerIp(),properties.getServerPort()).sync().channel();
 
             var msg = Message.MessageFrame.newBuilder()
                     .setCreateAt(2000)

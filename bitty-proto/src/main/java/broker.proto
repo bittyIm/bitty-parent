@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package com.bitty.proto;
+
+option java_outer_classname = "Broker";
+
+message MessageFrame {
+  bool  isRequest = 1;
+  enum Cmd {
+    PING = 0;
+    ERROR = 99;
+
+    resolveNode = 1;
+    resolveUser = 2;
+    status = 3;
+    /**
+    下线
+     */
+    DOWN = 4;
+    /**
+    上线
+     */
+    Up = 5;
+    /**
+    转发消息
+     */
+    Forward = 6;
+    /**
+    注册broker
+     */
+    signup = 7;
+  }
+  Cmd cmd = 2;
+  int32 reqId = 3;
+  //请求内容
+  bytes payload = 4;
+}
+
+/**
+查找节点
+ */
+message resolveNode {
+  Schema schema = 1;
+  enum Schema {
+    TCP = 0;
+  }
+  int32  node = 2;
+  string  ip = 3;
+  int32  port = 4;
+}
+
+/**
+注册节点
+ */
+message signupNode {
+  Schema schema = 1;
+  enum Schema {
+    TCP = 0;
+  }
+  int32  node = 2;
+  string  ip = 3;
+  int32  port = 4;
+}
+
+
+

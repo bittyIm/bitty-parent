@@ -13,8 +13,6 @@ class MessageTest {
     public void test1() throws InvalidProtocolBufferException {
 
         byte[] m = Message.MessageFrame.newBuilder()
-                .setCreateAt(2000)
-                .setMessageId(1000)
                 .setPayload("hello bitty")
                 .build()
                 .toByteArray();

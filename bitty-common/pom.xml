@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bitty-common</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.bitty</groupId>
+            <artifactId>bitty-proto</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

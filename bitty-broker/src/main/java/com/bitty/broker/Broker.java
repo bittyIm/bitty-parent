@@ -13,54 +13,67 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Data
 public class Broker {
-    public static BrokerContainer brokerContainer = new BrokerContainer();
-    public static void main(String[] args) throws InterruptedException, IOException {
 
-        brokerContainer.initProperty();
+    BrokerContainer brokerContainer = new BrokerContainer();
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+    BrokerProperty property = new BrokerProperty();
+
+    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+
+    ChannelFuture f = null;
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Broker b = new Broker();
+        b.initStart(new BrokerProperty("/application.properties"));
+        System.in.read();
+    }
+
+    public void initStart(BrokerProperty property) {
+        this.property = property;
+
+        log.info("启动broker服务器 {} {} ",property.getServerIp(),property.getServerPort());
+
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new IdleStateHandler(60,60,5, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(60, 60, 5, TimeUnit.SECONDS));
                             pipeline.addLast(new BittyDecoder());
                             pipeline.addLast(new BittyEncoder());
-                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
                             pipeline.addLast(new BittyHeartBeatServerHandler());
-                            pipeline.addLast(new BittyHandler());
+                            pipeline.addLast(new BittyHandler(brokerContainer));
                         }
                     });
 
-            log.info("开始监听 {} {} ", brokerContainer.getProperties().getProperty("app.broker.server"), brokerContainer.getProperties().getProperty("app.broker.port"));
+            f = b.bind(property.getServerIp(), property.getServerPort());
 
-            ChannelFuture f = b.bind((String) (brokerContainer.getProperties().getProperty("app.broker.server")),
-                    Integer.parseInt(brokerContainer.getProperties().getProperty("app.broker.port")));
-
-            f.addListener(g->{
-
-                brokerContainer.signin();
+            f.addListener(g -> {
+                brokerContainer.signin(this);
             });
+
             f.channel().closeFuture().sync();
-            System.in.read();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
