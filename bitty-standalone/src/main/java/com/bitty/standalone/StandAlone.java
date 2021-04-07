@@ -20,9 +20,7 @@ public class StandAlone {
             Root r=new Root();
             try {
                 r.initStart(new RootProperty("/application.root.properties"));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
