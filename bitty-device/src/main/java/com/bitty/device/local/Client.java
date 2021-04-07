@@ -3,11 +3,10 @@ package com.bitty.device.local;
 import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
 import com.bitty.device.DeviceProperty;
-import com.bitty.device.event.CmdEventImpl;
+
 import com.bitty.device.event.MessageEventImpl;
+
 import com.bitty.event.Event;
-import com.bitty.event.ReqEventImpl;
-import com.bitty.event.EventImpl;
 import com.bitty.proto.Message;
 import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
