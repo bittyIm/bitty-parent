@@ -14,7 +14,6 @@
         <module>bitty-root</module>
         <module>bitty-common</module>
         <module>bitty-standalone</module>
-        <module>bitty-frame</module>
         <module>bitty-dashboard</module>
         <module>bitty-proto</module>
         <module>bitty-codec</module>
