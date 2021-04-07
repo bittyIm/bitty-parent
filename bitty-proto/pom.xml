@@ -7,9 +7,11 @@
         <groupId>com.bitty</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bitty-proto</artifactId>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
