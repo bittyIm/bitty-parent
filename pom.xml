@@ -14,7 +14,6 @@
         <module>bitty-root</module>
         <module>bitty-common</module>
         <module>bitty-standalone</module>
-        <module>bitty-dashboard</module>
         <module>bitty-proto</module>
         <module>bitty-codec</module>
     </modules>
@@ -59,7 +58,6 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.15.6</version>
-
         </dependency>
 
     </dependencies>
