@@ -9,6 +9,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/bitty-dashboard/pom.xml" />
         <option value="$PROJECT_DIR$/bitty-event/pom.xml" />
         <option value="$PROJECT_DIR$/bitty-frame/pom.xml" />
       </set>
