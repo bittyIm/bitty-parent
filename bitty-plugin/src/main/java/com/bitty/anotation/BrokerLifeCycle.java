@@ -1,6 +1,5 @@
 package com.bitty.anotation;
 
-import com.bitty.proto.Message;
 
 import java.lang.annotation.*;
 

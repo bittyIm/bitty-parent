@@ -31,11 +31,19 @@ message MessageFrame {
     /**
     发送消息
      */
-    MESSAGE=2;
+    MESSAGE = 2;
     /**
     同步消息
      */
-    SYNC=3;
+    SYNC = 3;
+    /**
+    数据包
+     */
+    DATA = 4;
+    /**
+    控制包
+     */
+    CTRL = 5;
   }
   //命令子类型
   bytes Type = 8;

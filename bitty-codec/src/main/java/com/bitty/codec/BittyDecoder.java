@@ -21,10 +21,10 @@ public class BittyDecoder extends ByteToMessageDecoder {
         try {
             Message.MessageFrame ms = Message.MessageFrame
                     .newBuilder()
-                    .mergeFrom(d)
+                    .mergeFrom(E.dec(d))
                     .build();
             list.add(ms);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
