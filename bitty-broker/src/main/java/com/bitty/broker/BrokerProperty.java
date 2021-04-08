@@ -15,6 +15,7 @@ public class BrokerProperty {
     Integer serverPort;
     Integer nodeId;
     Integer ttl;
+    String  plugins;
 
     public BrokerProperty() {
 
@@ -34,6 +35,7 @@ public class BrokerProperty {
         this.nodeId = Integer.parseInt(properties.getProperty("app.broker.nodeId","0"));
         this.ttl = Integer.parseInt(properties.getProperty("app.broker.ttl","86400"));
         this.networkIp = properties.getProperty("app.broker.networkIp","127.0.0.1");
+        this.plugins=properties.getProperty("app.broker.plugins","com.bitty.plugins");
     }
 
     public void loadProperty(String path) throws IOException {

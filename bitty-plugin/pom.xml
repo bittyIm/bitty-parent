@@ -9,34 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bitty-broker</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>com.bitty</groupId>
-            <artifactId>bitty-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+    <artifactId>bitty-plugin</artifactId>
 
+    <dependencies>
         <dependency>
             <groupId>com.bitty</groupId>
             <artifactId>bitty-proto</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.bitty</groupId>
-            <artifactId>bitty-codec</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.bitty</groupId>
-            <artifactId>bitty-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
-
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

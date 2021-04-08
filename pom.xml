@@ -16,6 +16,8 @@
         <module>bitty-standalone</module>
         <module>bitty-proto</module>
         <module>bitty-codec</module>
+        <module>bitty-plugin</module>
+        <module>bitty-plugins</module>
     </modules>
 
     <properties>
@@ -30,6 +32,12 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.62.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.12</version>
         </dependency>
 
         <dependency>

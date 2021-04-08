@@ -1,5 +1,6 @@
 package com.bitty.broker;
 
+import com.bitty.broker.boot.Boot;
 import com.bitty.codec.BittyDecoder;
 import com.bitty.codec.BittyEncoder;
 import com.bitty.common.handler.BittyHeartBeatServerHandler;
@@ -41,6 +42,8 @@ public class Broker {
 
     public void initStart(BrokerProperty property) {
         this.property = property;
+
+        Boot boot=new Boot(property);
 
         log.info("启动broker服务器 {} {} {}",property.getServerIp(),property.getServerPort(),property.getNodeId());
 
