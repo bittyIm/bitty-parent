@@ -26,7 +26,7 @@ plugins 为系统内建的 插件
         <dependency>
             <groupId>com.bitty</groupId>
             <artifactId>bitty-plugin</artifactId>
-            <version>{{bitty.version}}</version>
+            <version>${bitty.version}</version>
         </dependency>      
 ```
 打包完成之后 复制到 plugins 目录下面  系统自动扫描加载
