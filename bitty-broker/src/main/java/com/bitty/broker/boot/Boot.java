@@ -4,10 +4,7 @@ import com.bitty.broker.BrokerProperty;
 import com.bitty.broker.handler.Handler;
 import com.bitty.proto.Message;
 import lombok.extern.slf4j.Slf4j;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
+
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import com.bitty.anotation.*;
+import org.reflections8.Reflections;
 
 @Slf4j
 public class Boot {
@@ -24,10 +22,7 @@ public class Boot {
 
     public void getClassByAnotation(BrokerProperty property) {
         log.info("扫描插件 {}", property.getPlugins());
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .forPackages(property.getPlugins())
-                .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
-        ); // 添加方法参数扫描工具
+        Reflections reflections = new Reflections(property.getPlugins()); // 添加方法参数扫描工具
 
         Set<Class<?>> cmdHandlers = reflections.getTypesAnnotatedWith(CMD.class);
         cmdHandlers.forEach(s -> {
