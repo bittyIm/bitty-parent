@@ -3,6 +3,7 @@ package com.bitty.root;
 import com.bitty.codec.BittyBrokerDecoder;
 import com.bitty.codec.BittyBrokerEncoder;
 import com.bitty.common.handler.BittyHeartBeatServerHandler;
+import com.bitty.root.boot.Boot;
 import com.bitty.root.node.NodeContainer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -39,6 +40,7 @@ public class Root {
 
     public void initStart(RootProperty property) throws InterruptedException, IOException {
         this.rootProperty = property;
+        Boot boot=new Boot(property);
         this.nodeContainer = new NodeContainer();
         log.info("启动root服务器 {} {} ", property.getRootIp(), property.getRootPort());
         try {

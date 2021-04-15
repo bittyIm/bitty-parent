@@ -1,16 +1,17 @@
-package com.bitty.broker.plugins;
+package com.bitty.root.handler;
 
-import com.bitty.broker.handler.Handler;
+import com.bitty.anotation.CMD;
+
 import com.bitty.proto.Message;
+import com.bitty.root.Handler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import com.bitty.anotation.*;
 
 @CMD(value = Message.MessageFrame.Cmd.AUTH)
 @Slf4j
-public class AuthPlugin implements Handler {
+public class AuthHandler implements Handler {
     @Override
     public void Run(Object event, ChannelHandlerContext ctx, String[] payload) {
-        log.info("auth的时候执行");
+        log.info("用户授权的时候执行");
     }
 }

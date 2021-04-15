@@ -1,25 +1,24 @@
-package com.bitty.broker.boot;
+package com.bitty.root.boot;
 
-import com.bitty.broker.BrokerProperty;
-import com.bitty.broker.handler.Handler;
+
+import com.bitty.anotation.CMD;
 import com.bitty.proto.Message;
+import com.bitty.root.Handler;
+import com.bitty.root.RootProperty;
 import lombok.extern.slf4j.Slf4j;
-
+import org.reflections8.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Set;
 
-import com.bitty.anotation.*;
-import org.reflections8.Reflections;
-
 @Slf4j
 public class Boot {
-    public Boot(BrokerProperty property) {
+    public Boot(RootProperty property) {
         getClassByAnotation(property);
     }
 
-    public void getClassByAnotation(BrokerProperty property) {
+    public void getClassByAnotation(RootProperty property) {
         log.info("扫描插件 {}", property.getHandler());
         Reflections reflections = new Reflections(property.getHandler()); // 添加方法参数扫描工具
 

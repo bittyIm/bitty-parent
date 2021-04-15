@@ -11,6 +11,8 @@ public class RootProperty {
     String rootIp;
     Integer rootPort;
 
+    String handler;
+
     public RootProperty(){
 
     }
@@ -23,6 +25,7 @@ public class RootProperty {
         properties.load(stream);
         this.rootIp=properties.getProperty("app.root.server");
         this.rootPort=Integer.parseInt(properties.getProperty("app.root.port"));
+        this.handler =properties.getProperty("app.root.handler");
     }
 
     public void loadProperty(String path) throws IOException {
